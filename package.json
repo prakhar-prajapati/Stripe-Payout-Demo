@@ -1,0 +1,17 @@
+{
+  "name": "stripe_payout_demo",
+  "version": "1.0.0",
+  "description": "Stripe Payout demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Prakhar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4",
+    "stripe": "^8.52.0"
+  },
+  "devDependencies": {}
+}
