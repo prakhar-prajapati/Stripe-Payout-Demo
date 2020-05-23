@@ -1,5 +1,5 @@
 const express = require('express')
-var stripe = require('stripe')('');
+var stripe = require('stripe')('sk_test_AbHZixFQutesTkh40YqCUjfl00xyymYrwS');
 const app = express()
  
 app.get('/', function (req, res) {
@@ -16,7 +16,7 @@ app.post('/payout',(req,res)=>{
        source_type:'card',
        destination:'card_1Gk3XBAaf3EX2XJtXdruEv9N'
       },{
-
+        
         stripeAccount: 'acct_1GjKMqCpjAiF3DpZ',
       },
       function(err, payout) {
@@ -55,6 +55,24 @@ app.post('/balance',async (re,res)=>{
       });
 })
 
+app.post('/addcard',(req,res)=>{
+  stripe.accounts.createExternalAccount(
+    'acct_1GjKMqCpjAiF3DpZ',
+    { external_account: {
+        object:'card',
+        number:'4000056655665556',
+								exp_month:5,
+								exp_year:2021,
+								currency:'usd'
+              }},
+    function(err, card) {
+      // asynchronously called
+      if(err)return res.send(err);
+      res.send(card)
+    }
+  );
+})
+
 app.post('/createAccount',(req,res)=>{
     stripe.accounts.create(
         {
@@ -84,13 +102,23 @@ app.post('/createAccount',(req,res)=>{
               },
               email:'prakhar.prajapati@mindcrewtech.com',
               first_name:'Prakhar',
-              last_name:'p',
+              last_name:'prajapati',
               phone:'5556781212',
               id_number:'000000000'
          },
          business_profile:{
              url:'http://testSage.com',
              mcc:7512
+         },
+         settings:{
+           payouts:{
+             schedule:{
+              delay_days:'minimum',   
+            interval:'weekly',
+            weekly_anchor:'saturday',
+            }, 
+          statement_descriptor:'automatic payout check'
+          }
          }
 
         },
