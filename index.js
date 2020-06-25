@@ -1,5 +1,5 @@
 const express = require('express')
-var stripe = require('stripe')('sk_test_AbHZixFQutesTkh40YqCUjfl00xyymYrwS');
+var stripe = require('STRIPE_KEY');
 const app = express()
  
 app.get('/', function (req, res) {
