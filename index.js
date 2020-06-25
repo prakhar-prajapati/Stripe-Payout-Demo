@@ -128,3 +128,38 @@ app.post('/createAccount',(req,res)=>{
         }
       );
 })
+
+
+
+app.post('/webhook', bodyParser.raw({type: 'application/json'}), (request, response) => {
+  let event;
+  
+  try {
+    event = JSON.parse(request.body);
+    console.log(event)
+  } catch (err) {
+    response.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'payout.failed':
+      const paypal = event.data.object;
+      console.log("failed",event)
+      break;
+    case 'payout.updated':
+      const payoutUpdated = event.data.object;
+      console.log("updated",event)
+      break;
+    case 'payout.paid':
+      const payoutPaid = event.data.object;
+      console.log("paid",event)
+      break;
+    default:
+      // Unexpected event type
+      return response.status(400).end();
+  }
+
+  // Return a response to acknowledge receipt of the event
+  response.json({received: true});
+});
